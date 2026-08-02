@@ -33,3 +33,11 @@ jobs:
           docker tag my-first-image:${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/docker-lab:latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/docker-lab:${{ github.sha }}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/docker-lab:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Simulate deployment
+        run: echo "Deploying image with SHA ${{ github.sha }} to production"
