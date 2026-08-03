@@ -1,8 +1,10 @@
 import http.server
 import socketserver
 import socket
+import os
 
 PORT = 80
+GREETING = os.environ.get("GREETING", "default greeting - no env var set")
 
 class Handler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
@@ -10,9 +12,8 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-type", "text/plain")
         self.end_headers()
-        message = f"Hello from pod: {hostname}\n"
+        message = f"Hello from pod: {hostname}\nGreeting: {GREETING}\n"
         self.wfile.write(message.encode())
-        print(f"Handled request, served by {hostname}")
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print(f"Serving on port {PORT}")
