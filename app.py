@@ -15,13 +15,13 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(b"ok\n")
             return
 
-        if self.path == "/eatmemory":
-            hog = bytearray(200 * 1024 * 1024)  # allocate 200MB
-            self.send_response(200)
-            self.send_header("Content-type", "text/plain")
-            self.end_headers()
-            self.wfile.write(b"allocated\n")
-            return
+       # if self.path == "/eatmemory":
+           # hog = bytearray(200 * 1024 * 1024)  # allocate 200MB
+            #self.send_response(200)
+            #self.send_header("Content-type", "text/plain")
+            #self.end_headers()
+            #self.wfile.write(b"allocated\n")
+            #return
 
         hostname = socket.gethostname()
         self.send_response(200)
