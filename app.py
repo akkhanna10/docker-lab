@@ -8,20 +8,20 @@ GREETING = os.environ.get("GREETING", "default greeting - no env var set")
 
 class Handler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path == "/healthz":
+        if self.path in ("/healthz", "/app/healthz"):
             self.send_response(200)
             self.send_header("Content-type", "text/plain")
             self.end_headers()
             self.wfile.write(b"ok\n")
             return
 
-       # if self.path == "/eatmemory":
-           # hog = bytearray(200 * 1024 * 1024)  # allocate 200MB
-            #self.send_response(200)
-            #self.send_header("Content-type", "text/plain")
-            #self.end_headers()
-            #self.wfile.write(b"allocated\n")
-            #return
+        if self.path == "/eatmemory":
+            hog = bytearray(200 * 1024 * 1024)
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"allocated\n")
+            return
 
         hostname = socket.gethostname()
         self.send_response(200)
@@ -32,4 +32,4 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print(f"Serving on port {PORT}")
-    httpd.serve_forever()
+    httpd.serve_forever()	
