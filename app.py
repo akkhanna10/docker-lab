@@ -22,7 +22,15 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b"allocated\n")
             return
-
+	if self.path == "/burn":
+    	    x = 0
+            for i in range(20_000_000):
+                x += i * i
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"burned\n")
+            return
         hostname = socket.gethostname()
         self.send_response(200)
         self.send_header("Content-type", "text/plain")
