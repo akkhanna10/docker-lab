@@ -22,8 +22,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b"allocated\n")
             return
-	if self.path == "/burn":
-    	    x = 0
+
+        if self.path == "/burn":
+            x = 0
             for i in range(20_000_000):
                 x += i * i
             self.send_response(200)
@@ -31,6 +32,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b"burned\n")
             return
+
         hostname = socket.gethostname()
         self.send_response(200)
         self.send_header("Content-type", "text/plain")
@@ -40,4 +42,4 @@ class Handler(http.server.BaseHTTPRequestHandler):
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print(f"Serving on port {PORT}")
-    httpd.serve_forever()	
+    httpd.serve_forever()
